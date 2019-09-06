@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:forsight/src/bloc/update_provider.dart';
+import 'package:forsight/src/resources/forsight_shared_pref.dart';
 import 'package:image_picker/image_picker.dart';
 
 class UpdateProfileScreen extends StatefulWidget {
@@ -112,7 +113,9 @@ class _UpdateListState extends State<UpdateList> {
                   shape: BoxShape.circle,
                   image: DecorationImage(
                       fit: BoxFit.cover,
-                      image: _image == null ?AssetImage('asset/images/forsight_logo.jpeg'):FileImage(_image)))),
+                      image: _image == null
+                          ? AssetImage('asset/images/forsight_logo.jpeg')
+                          : FileImage(_image)))),
         ),
         CupertinoButton(
           onPressed: () {
@@ -124,6 +127,10 @@ class _UpdateListState extends State<UpdateList> {
           height: 18.0,
         ),
         NameWidget(bloc: bloc),
+        SizedBox(
+          height: 18.0,
+        ),
+        FatherNameWidget(bloc: bloc),
         SizedBox(
           height: 18.0,
         ),
@@ -139,35 +146,34 @@ class _UpdateListState extends State<UpdateList> {
         SizedBox(
           height: 18.0,
         ),
-        QualificationWidget(bloc: bloc),
-        SizedBox(
-          height: 18.0,
-        ),
-        CollegeWidget(bloc: bloc),
-        SizedBox(
-          height: 18.0,
-        ),
-        AddressWidget(bloc: bloc),
-        SizedBox(
-          height: 18.0,
-        ),
-        AdditionalAddressWidget(bloc: bloc),
-        SizedBox(
-          height: 18.0,
-        ),
         UpdateButton(),
       ],
     );
   }
 }
 
-class NameWidget extends StatelessWidget {
+class NameWidget extends StatefulWidget {
   const NameWidget({
     Key key,
     @required this.bloc,
   }) : super(key: key);
 
   final UpdateBloc bloc;
+
+  @override
+  _NameWidgetState createState() => _NameWidgetState();
+}
+
+class _NameWidgetState extends State<NameWidget> {
+  TextEditingController _controller;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _controller = new TextEditingController(text: ForsightSharedPrefs.name);
+    widget.bloc.changeName(ForsightSharedPrefs.name);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -177,14 +183,70 @@ class NameWidget extends StatelessWidget {
         borderRadius: BorderRadius.all(Radius.circular(8.0)),
       ),
       child: StreamBuilder(
-        stream: bloc.name,
+        stream: widget.bloc.name,
         builder: (context, AsyncSnapshot<String> snapshot) {
           return TextField(
-            onChanged: bloc.changeName,
+            onChanged: widget.bloc.changeName,
             //obscureText: true,
+            controller: _controller,
             decoration: InputDecoration(
               hintText: 'Name',
               labelText: 'Name',
+              hintStyle: TextStyle(
+                  //color: Colors.blue[50]
+                  ),
+              prefixIcon: Icon(Icons.face),
+              border: OutlineInputBorder(),
+              errorText: snapshot.error,
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class FatherNameWidget extends StatefulWidget {
+  const FatherNameWidget({
+    Key key,
+    @required this.bloc,
+  }) : super(key: key);
+
+  final UpdateBloc bloc;
+
+  @override
+  _FatherNameWidgetState createState() => _FatherNameWidgetState();
+}
+
+class _FatherNameWidgetState extends State<FatherNameWidget> {
+  TextEditingController _controller;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _controller =
+        new TextEditingController(text: ForsightSharedPrefs.fatherName);
+    widget.bloc.changeFatherName(ForsightSharedPrefs.fatherName);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.all(Radius.circular(8.0)),
+      ),
+      child: StreamBuilder(
+        stream: widget.bloc.fatherName,
+        builder: (context, AsyncSnapshot<String> snapshot) {
+          return TextField(
+            onChanged: widget.bloc.changeFatherName,
+            //obscureText: true,
+            controller: _controller,
+            decoration: InputDecoration(
+              hintText: 'Father Name',
+              labelText: 'Father Name',
               hintStyle: TextStyle(
                   //color: Colors.blue[50]
                   ),
@@ -218,7 +280,8 @@ class _DoBWidgetState extends State<DoBWidget> {
   @override
   void initState() {
     super.initState();
-    _controller = new TextEditingController();
+    _controller = new TextEditingController(text: ForsightSharedPrefs.dob);
+    widget.bloc.changeDob(ForsightSharedPrefs.dob);
   }
 
   Future<Null> _selectDate(BuildContext context) async {
@@ -248,11 +311,10 @@ class _DoBWidgetState extends State<DoBWidget> {
         initialData: selectedDate.toLocal().toString(),
         builder: (context, AsyncSnapshot<String> snapshot) {
           return TextField(
-            controller: _controller,
             onTap: () => _selectDate(context),
             onChanged: widget.bloc.changeDob,
             //obscureText: true,
-
+            controller: _controller,
             decoration: InputDecoration(
               hintText: 'Date Of Birth',
               labelText: 'Date Of Birth',
@@ -270,13 +332,28 @@ class _DoBWidgetState extends State<DoBWidget> {
   }
 }
 
-class MobileWidget extends StatelessWidget {
+class MobileWidget extends StatefulWidget {
   const MobileWidget({
     Key key,
     @required this.bloc,
   }) : super(key: key);
 
   final UpdateBloc bloc;
+
+  @override
+  _MobileWidgetState createState() => _MobileWidgetState();
+}
+
+class _MobileWidgetState extends State<MobileWidget> {
+  TextEditingController _controller;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _controller = new TextEditingController(text: ForsightSharedPrefs.mobile);
+    widget.bloc.changeMobile(ForsightSharedPrefs.mobile);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -286,10 +363,11 @@ class MobileWidget extends StatelessWidget {
         borderRadius: BorderRadius.all(Radius.circular(8.0)),
       ),
       child: StreamBuilder(
-        stream: bloc.mobile,
+        stream: widget.bloc.mobile,
         builder: (context, AsyncSnapshot<String> snapshot) {
           return TextField(
-            onChanged: bloc.changeMobile,
+            onChanged: widget.bloc.changeMobile,
+            controller: _controller,
             //obscureText: true,
             keyboardType: TextInputType.phone,
             decoration: InputDecoration(
@@ -309,8 +387,8 @@ class MobileWidget extends StatelessWidget {
   }
 }
 
-class EmailWidget extends StatelessWidget {
-  const EmailWidget({
+class AadhaarWidget extends StatelessWidget {
+  const AadhaarWidget({
     Key key,
     @required this.bloc,
   }) : super(key: key);
@@ -325,11 +403,66 @@ class EmailWidget extends StatelessWidget {
         borderRadius: BorderRadius.all(Radius.circular(8.0)),
       ),
       child: StreamBuilder(
-        stream: bloc.email,
+        stream: bloc.aadhaar,
         builder: (context, AsyncSnapshot<String> snapshot) {
           return TextField(
-            onChanged: bloc.changeEmail,
+            onChanged: bloc.changeAadhaar,
             //obscureText: true,
+            keyboardType: TextInputType.phone,
+            decoration: InputDecoration(
+              hintText: 'Aadhaar Number',
+              labelText: 'Aadhaar Number',
+              hintStyle: TextStyle(
+                  //color: Colors.blue[50]
+                  ),
+              prefixIcon: Icon(Icons.phone_android),
+              border: OutlineInputBorder(),
+              errorText: snapshot.error,
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class EmailWidget extends StatefulWidget {
+  const EmailWidget({
+    Key key,
+    @required this.bloc,
+  }) : super(key: key);
+
+  final UpdateBloc bloc;
+
+  @override
+  _EmailWidgetState createState() => _EmailWidgetState();
+}
+
+class _EmailWidgetState extends State<EmailWidget> {
+  TextEditingController _controller;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _controller = new TextEditingController(text: ForsightSharedPrefs.email);
+    widget.bloc.changeEmail(ForsightSharedPrefs.email);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.all(Radius.circular(8.0)),
+      ),
+      child: StreamBuilder(
+        stream: widget.bloc.email,
+        builder: (context, AsyncSnapshot<String> snapshot) {
+          return TextField(
+            onChanged: widget.bloc.changeEmail,
+            //obscureText: true,
+            controller: _controller,
             keyboardType: TextInputType.emailAddress,
             decoration: InputDecoration(
               hintText: 'Email',
@@ -479,7 +612,8 @@ class AdditionalAddressWidget extends StatefulWidget {
   final UpdateBloc bloc;
 
   @override
-  _AdditionalAddressWidgetState createState() => _AdditionalAddressWidgetState();
+  _AdditionalAddressWidgetState createState() =>
+      _AdditionalAddressWidgetState();
 }
 
 class _AdditionalAddressWidgetState extends State<AdditionalAddressWidget> {
@@ -513,8 +647,6 @@ class _AdditionalAddressWidgetState extends State<AdditionalAddressWidget> {
     );
   }
 }
-
-
 
 class UpdateButton extends StatefulWidget {
   const UpdateButton({
@@ -561,8 +693,8 @@ class _UpdateButtonState extends State<UpdateButton> {
                       ),
                     ),
                     color: Colors.cyanAccent[700],
-                    onPressed: () {
-                      bloc.submit();
+                    onPressed: () async {
+                      await bloc.submitPersonalDetail();
                       Navigator.pop(context);
                     },
                     disabledColor: Colors.cyanAccent[300],
@@ -582,7 +714,7 @@ class _UpdateButtonState extends State<UpdateButton> {
   }
 
   login(UpdateBloc bloc) {
-    bloc.submit().then((bool loggedIn) {
+    bloc.submitPersonalDetail().then((bool loggedIn) {
       if (loggedIn) {
         Navigator.pushReplacementNamed(context, '/m');
         setState(() {

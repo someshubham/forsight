@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:forsight/src/bloc/login_provider.dart';
 
 class CreditScoreWidget extends StatefulWidget {
   CreditScoreWidget({Key key}) : super(key: key);
@@ -7,6 +8,43 @@ class CreditScoreWidget extends StatefulWidget {
 }
 
 class _CreditScoreWidgetState extends State<CreditScoreWidget> {
+  @override
+  Widget build(BuildContext context) {
+    final bloc = LoginProvider.of(context);
+    return StreamBuilder(
+      stream: bloc.cePointsStream,
+      builder: (context, AsyncSnapshot<int> snapshot) {
+        if (snapshot.hasData) {
+          switch (snapshot.data) {
+            case -1:
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+              break;
+            case -2:
+              return Center(
+                child: Text('Oops Something is wrong'),
+              );
+              break;
+            default:
+              return CreditScoreCard(
+                cePoints: snapshot.data,
+              );
+              break;
+          }
+        }
+
+        return Container();
+      },
+    );
+  }
+}
+
+class CreditScoreCard extends StatelessWidget {
+  final int cePoints;
+
+  CreditScoreCard({Key key, this.cePoints}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -21,7 +59,7 @@ class _CreditScoreWidgetState extends State<CreditScoreWidget> {
         children: <Widget>[
           Container(
             child: Text(
-              '20',
+              '$cePoints',
               style: TextStyle(
                 color: Colors.yellow[700],
                 fontSize: 48.0,

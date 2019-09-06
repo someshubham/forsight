@@ -5,6 +5,8 @@ import 'package:forsight/src/models/doctor_model.dart';
 import 'package:forsight/src/models/user_model.dart';
 import 'package:forsight/src/resources/forsight_shared_pref.dart';
 import 'package:forsight/src/screens/scan.dart';
+import 'package:forsight/src/screens/update_education_screen.dart';
+import 'package:forsight/src/screens/update_location_screen.dart';
 import 'package:forsight/src/screens/update_profile_screen.dart';
 import 'package:forsight/src/widgets/credit_score_widget.dart';
 
@@ -131,7 +133,7 @@ class _ProfileDisplayState extends State<ProfileDisplay> {
             children: <Widget>[
               Container(
                 child: Text(
-                  '${widget.user.currentProfStatus}',
+                  '${widget.user.collegeName}',
                   style: TextStyle(
                     fontSize: 18.0,
                     fontWeight: FontWeight.w600,
@@ -143,7 +145,7 @@ class _ProfileDisplayState extends State<ProfileDisplay> {
               ),
               Container(
                 child: Text(
-                  '${widget.user.photo}',
+                  '${widget.user.resAddress1}',
                   style: TextStyle(
                     fontSize: 18.0,
                     fontWeight: FontWeight.w600,
@@ -215,7 +217,47 @@ class _ProfileDisplayState extends State<ProfileDisplay> {
                     SizedBox(
                       height: 4.0,
                     ),
-                    Text('Update Profile'),
+                    Text(
+                      'Update Personal Details',
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(
+                      height: 2.0,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 1,
+              child: Container(
+                margin: EdgeInsets.all(8.0),
+                padding: EdgeInsets.all(8.0),
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(8.0))),
+                child: Column(
+                  children: <Widget>[
+                    IconButton(
+                      icon: Icon(
+                        Icons.edit,
+                        color: Colors.yellowAccent[700],
+                      ),
+                      onPressed: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return UpdateEducationScreen();
+                        }));
+                      },
+                    ),
+                    SizedBox(
+                      height: 4.0,
+                    ),
+                    Text(
+                      'Update Educational Details',
+                      textAlign: TextAlign.center,
+                    ),
                     SizedBox(
                       height: 2.0,
                     ),
@@ -242,7 +284,12 @@ class _ProfileDisplayState extends State<ProfileDisplay> {
                       icon: Icon(Icons.location_searching),
                       color: Colors.greenAccent[700],
                       highlightColor: Colors.cyanAccent,
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return UpdateLocationScreen();
+                        }));
+                      },
                     ),
                     SizedBox(
                       height: 4.0,

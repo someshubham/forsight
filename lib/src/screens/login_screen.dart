@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:forsight/src/bloc/login_provider.dart';
 import 'package:forsight/src/resources/forsight_shared_pref.dart';
@@ -169,9 +170,9 @@ class _LoginButtonState extends State<LoginButton> {
               Visibility(
                 visible: visibleProgress,
                 child: CircularProgressIndicator(
-                  //valueColor: Colors.cyan,
-                  //valueColo,
-                ),
+                    //valueColor: Colors.cyan,
+                    //valueColo,
+                    ),
               ),
             ],
           );
@@ -187,7 +188,22 @@ class _LoginButtonState extends State<LoginButton> {
           visibleProgress = false;
         });
       } else {
-        print('nhi hua login');
+        showCupertinoDialog(
+            context: context,
+            builder: (context) {
+              return CupertinoAlertDialog(
+                title: Text('Login'),
+                content: Text('Oops Cannot Login'),
+                actions: <Widget>[
+                  CupertinoButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text('Try Again'),
+                  ),
+                ],
+              );
+            });
         setState(() {
           visibleButton = true;
           visibleProgress = false;

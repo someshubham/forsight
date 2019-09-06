@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
+import 'package:forsight/src/bloc/login_bloc.dart';
+import 'package:forsight/src/bloc/login_provider.dart';
 import 'package:forsight/src/widgets/credit_score_widget.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:barcode_scan/barcode_scan.dart';
@@ -13,7 +15,7 @@ class ScanScreen extends StatefulWidget {
 
 class _ScanState extends State<ScanScreen> {
   String barcode = "Scanned Data will Appear here";
-
+  LoginBloc bloc;
   @override
   initState() {
     super.initState();
@@ -21,6 +23,7 @@ class _ScanState extends State<ScanScreen> {
 
   @override
   Widget build(BuildContext context) {
+    bloc = LoginProvider.of(context);
     return Scaffold(
         backgroundColor: Colors.lightBlue[50],
         body: new Container(
@@ -63,6 +66,7 @@ class _ScanState extends State<ScanScreen> {
   Future scan() async {
     try {
       String barcode = await BarcodeScanner.scan();
+      bloc.updateCEPoints(20);
       setState(() => this.barcode = barcode);
     } on PlatformException catch (e) {
       if (e.code == BarcodeScanner.CameraAccessDenied) {
