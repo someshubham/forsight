@@ -26,8 +26,8 @@ class ForsightApiProvider {
       '$_root/post.php',
       body: json.encode({
         "key": "optometry_login",
-        "user_name": "appadmin@gmail.com",
-        "password_login": "test123"
+        "user_name": username,
+        "password_login": password
       }),
       headers: <String, String>{
         "Content-type": "application/json",

@@ -80,7 +80,7 @@ class _ProfileDisplayState extends State<ProfileDisplay> {
                       image: DecorationImage(
                           fit: BoxFit.cover,
                           image: NetworkImage(
-                              'https://elseif.in/oci/${widget.user.photo}')))),
+                              'https://api.optometrycouncilofindia.org/${widget.user.photo}')))),
               SizedBox(
                 height: 12.0,
               ),
