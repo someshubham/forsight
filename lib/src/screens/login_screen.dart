@@ -50,7 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 48.0,
               ),
               Image.asset(
-                'asset/images/forsight_logo.jpeg',
+                'assets/images/forsight_logo.jpeg',
               ),
               Container(
                 decoration: BoxDecoration(

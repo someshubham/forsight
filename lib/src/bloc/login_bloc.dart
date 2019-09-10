@@ -46,7 +46,7 @@ class LoginBloc {
   }
 
   LoginBloc() {
-    clearCEPoints();
+    //clearCEPoints();
     fetchCEPoints();
   }
 

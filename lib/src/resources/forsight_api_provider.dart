@@ -220,11 +220,5 @@ class ForsightApiProvider {
     );
 
     print('response is ${response.body}');
-    // Map<String, dynamic> resultMap =
-    //   (json.decode(response.body) as Map<String, dynamic>);
-
-    //int result = resultMap['status'];
-    //print('$result');
-    //return (result == 1) ? resultMap['result']['accessToken'] : null;
   }
 }

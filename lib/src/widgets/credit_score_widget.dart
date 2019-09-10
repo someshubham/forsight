@@ -23,7 +23,10 @@ class _CreditScoreWidgetState extends State<CreditScoreWidget> {
               break;
             case -2:
               return Center(
-                child: Text('Oops Something is wrong'),
+                child: Text(
+                  'Oops Something is wrong',
+                  style: TextStyle(fontSize: 16),
+                ),
               );
               break;
             default:

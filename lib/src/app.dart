@@ -12,48 +12,41 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO: implement build
     return LoginProvider(
-          child: UpdateProvider(
-                      child: MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
+      child: UpdateProvider(
+        child: MaterialApp(
+          title: 'Flutter Demo',
+          theme: ThemeData(
             accentColor: Colors.cyan,
             primarySwatch: Colors.cyan,
             backgroundColor: Colors.lightBlue,
             //hintColor: Colors.cyan[100],
-        ),
-        onGenerateRoute: routes,
-        //home: MainScreen(),
-      ),
+            fontFamily: 'GoogleSans',
           ),
+          onGenerateRoute: routes,
+          //home: MainScreen(),
+        ),
+      ),
     );
   }
 
-  Route routes(RouteSettings settings){
-
+  Route routes(RouteSettings settings) {
     //var x= await Repository().fetchEvents();
-    
-    if(settings.name == '/'){
+
+    if (settings.name == '/') {
       //await Repository().fetchEvents();
-      return MaterialPageRoute(
-        builder: (context){
-          return LoginScreen();
-        }
-      );
-    }else if(settings.name == '/e'){
-      return MaterialPageRoute(
-        builder: (context){
-          return EventDetailScreen();
-        }
-      );
-    }
-    else {
-      return MaterialPageRoute(
-        builder: (context){
-          final loginBloc = LoginProvider.of(context);
-          loginBloc.login();
-          return MainScreen();
-        }
-      );
+      return MaterialPageRoute(builder: (context) {
+        return LoginScreen();
+      });
+    } else if (settings.name == '/e') {
+      return MaterialPageRoute(builder: (context) {
+        return EventDetailScreen();
+      });
+    } else {
+      return MaterialPageRoute(builder: (context) {
+        final loginBloc = LoginProvider.of(context);
+        loginBloc.login();
+        return MainScreen();
+      });
     }
   }
 }
