@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:forsight/src/bloc/update_provider.dart';
@@ -7,8 +8,8 @@ import 'package:forsight/src/resources/forsight_shared_pref.dart';
 import 'package:image_picker/image_picker.dart';
 
 class UpdateProfileScreen extends StatefulWidget {
-  UpdateProfileScreen({Key key}) : super(key: key);
-
+  UpdateProfileScreen({Key key, this.userImage}) : super(key: key);
+  final String userImage;
   _UpdateProfileScreenState createState() => _UpdateProfileScreenState();
 }
 
@@ -42,7 +43,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
       body: SafeArea(
         child: Container(
           margin: EdgeInsets.all(16.0),
-          child: UpdateList(),
+          child: UpdateList(userImage: widget.userImage),
         ),
       ),
     );
@@ -50,8 +51,8 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
 }
 
 class UpdateList extends StatefulWidget {
-  UpdateList({Key key}) : super(key: key);
-
+  UpdateList({Key key, this.userImage}) : super(key: key);
+  final String userImage;
   _UpdateListState createState() => _UpdateListState();
 }
 
@@ -71,7 +72,7 @@ class _UpdateListState extends State<UpdateList> {
                   image =
                       await ImagePicker.pickImage(source: ImageSource.camera);
                   setState(() {
-                    _image = image;
+                    if (image != null) _image = image;
                   });
                   Navigator.pop(context);
                 },
@@ -82,7 +83,7 @@ class _UpdateListState extends State<UpdateList> {
                   image =
                       await ImagePicker.pickImage(source: ImageSource.gallery);
                   setState(() {
-                    _image = image;
+                    if (image != null) _image = image;
                   });
                   Navigator.pop(context);
                 },
@@ -97,6 +98,81 @@ class _UpdateListState extends State<UpdateList> {
         });
 
     //var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+  }
+
+  Future uploadImage() async {
+    showCupertinoDialog(
+        context: context,
+        builder: (context) {
+          return CupertinoAlertDialog(
+            content: CupertinoActivityIndicator(),
+          );
+        });
+    String token = await ForsightSharedPrefs().getToken();
+    var uri = Uri.parse('https://api.optometrycouncilofindia.org/api/post.php');
+    FormData formData = new FormData.from({
+      "key": "optometry_profile_image_update",
+      "accessToken": token,
+      "photo": UploadFileInfo(_image, _image.path.split('/').last),
+    });
+    print(token);
+    try {
+      var response = await Dio().post(
+        uri.toString(),
+        data: formData,
+        options: Options(
+          headers: {
+            "Token": "2304d5f65a9273202dce611154ba0c93",
+          },
+        ),
+      );
+      print(response.data);
+      if (response.statusCode >= 200 && response.statusCode < 300) {
+        print(response.data);
+        Navigator.pop(context);
+        showCupertinoDialog(
+            context: context,
+            builder: (context) {
+              return CupertinoAlertDialog(
+                title: Text('Success'),
+                content: Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text(
+                      'Image Uploaded Successfully !! Please click update button to see the changes'),
+                ),
+                actions: <Widget>[
+                  CupertinoDialogAction(
+                    child: Text('Ok'),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                ],
+              );
+            });
+      } else {
+        print(response.statusCode);
+        Navigator.pop(context);
+        return CupertinoAlertDialog(
+          title: Text('Error'),
+          content: Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Text('Something is wrong'),
+          ),
+          actions: <Widget>[
+            CupertinoDialogAction(
+              child: Text('Try Again'),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        );
+      }
+    } catch (e) {
+      print(e);
+      Navigator.pop(context);
+    }
   }
 
   @override
@@ -114,7 +190,7 @@ class _UpdateListState extends State<UpdateList> {
                   image: DecorationImage(
                       fit: BoxFit.cover,
                       image: _image == null
-                          ? AssetImage('asset/images/forsight_logo.jpeg')
+                          ? NetworkImage('${widget.userImage}')
                           : FileImage(_image)))),
         ),
         CupertinoButton(
@@ -122,6 +198,14 @@ class _UpdateListState extends State<UpdateList> {
             getImage();
           },
           child: Text('Change Image'),
+        ),
+        CupertinoButton(
+          onPressed: _image != null
+              ? () {
+                  uploadImage();
+                }
+              : null,
+          child: Text('Upload Image'),
         ),
         SizedBox(
           height: 18.0,

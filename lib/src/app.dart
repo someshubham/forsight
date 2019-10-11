@@ -15,6 +15,7 @@ class MyApp extends StatelessWidget {
       child: UpdateProvider(
         child: MaterialApp(
           title: 'Flutter Demo',
+          debugShowCheckedModeBanner: false,
           theme: ThemeData(
             accentColor: Colors.cyan,
             primarySwatch: Colors.cyan,

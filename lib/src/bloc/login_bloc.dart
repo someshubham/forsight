@@ -64,6 +64,11 @@ class LoginBloc {
     _userController.sink.add(user);
   }
 
+  refetchProfileData() async {
+    DoctorModel user = await _repo.getUserData();
+    _userController.sink.add(user);
+  }
+
   getLoginData() async {
     UserModel loginData = await _repo.getLoginData();
     loginDataSink(loginData);

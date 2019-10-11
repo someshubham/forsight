@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:forsight/src/bloc/login_provider.dart';
 import 'package:forsight/src/bloc/update_provider.dart';
@@ -73,14 +74,17 @@ class _ProfileDisplayState extends State<ProfileDisplay> {
                 height: 12.0,
               ),
               Container(
-                  width: 120.0,
-                  height: 120.0,
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: NetworkImage(
-                              'https://api.optometrycouncilofindia.org/${widget.user.photo}')))),
+                width: 120.0,
+                height: 120.0,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: NetworkImage(
+                        'https://optometrycouncilofindia.org/${widget.user.photo}'),
+                  ),
+                ),
+              ),
               SizedBox(
                 height: 12.0,
               ),
@@ -161,6 +165,7 @@ class _ProfileDisplayState extends State<ProfileDisplay> {
             Expanded(
               flex: 1,
               child: Container(
+                height: MediaQuery.of(context).size.height * 0.16,
                 margin: EdgeInsets.all(8.0),
                 padding: EdgeInsets.all(8.0),
                 alignment: Alignment.center,
@@ -168,6 +173,7 @@ class _ProfileDisplayState extends State<ProfileDisplay> {
                     color: Colors.white,
                     borderRadius: BorderRadius.all(Radius.circular(8.0))),
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     IconButton(
                       icon: Icon(Icons.search),
@@ -183,7 +189,11 @@ class _ProfileDisplayState extends State<ProfileDisplay> {
                     SizedBox(
                       height: 4.0,
                     ),
-                    Text('Scan QR Code'),
+                    AutoSizeText(
+                      'Scan QR Code',
+                      textAlign: TextAlign.center,
+                      maxLines: 2,
+                    ),
                     SizedBox(
                       height: 2.0,
                     ),
@@ -194,6 +204,7 @@ class _ProfileDisplayState extends State<ProfileDisplay> {
             Expanded(
               flex: 1,
               child: Container(
+                height: MediaQuery.of(context).size.height * 0.16,
                 margin: EdgeInsets.all(8.0),
                 padding: EdgeInsets.all(8.0),
                 alignment: Alignment.center,
@@ -201,6 +212,7 @@ class _ProfileDisplayState extends State<ProfileDisplay> {
                     color: Colors.white,
                     borderRadius: BorderRadius.all(Radius.circular(8.0))),
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     IconButton(
                       icon: Icon(
@@ -210,16 +222,19 @@ class _ProfileDisplayState extends State<ProfileDisplay> {
                       onPressed: () {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) {
-                          return UpdateProfileScreen();
+                          return UpdateProfileScreen(
+                              userImage:
+                                  'https://optometrycouncilofindia.org/${widget.user.photo}');
                         }));
                       },
                     ),
                     SizedBox(
                       height: 4.0,
                     ),
-                    Text(
+                    AutoSizeText(
                       'Update Personal Details',
                       textAlign: TextAlign.center,
+                      maxLines: 2,
                     ),
                     SizedBox(
                       height: 2.0,
@@ -231,6 +246,7 @@ class _ProfileDisplayState extends State<ProfileDisplay> {
             Expanded(
               flex: 1,
               child: Container(
+                height: MediaQuery.of(context).size.height * 0.16,
                 margin: EdgeInsets.all(8.0),
                 padding: EdgeInsets.all(8.0),
                 alignment: Alignment.center,
@@ -238,6 +254,7 @@ class _ProfileDisplayState extends State<ProfileDisplay> {
                     color: Colors.white,
                     borderRadius: BorderRadius.all(Radius.circular(8.0))),
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     IconButton(
                       icon: Icon(
@@ -254,9 +271,10 @@ class _ProfileDisplayState extends State<ProfileDisplay> {
                     SizedBox(
                       height: 4.0,
                     ),
-                    Text(
+                    AutoSizeText(
                       'Update Educational Details',
                       textAlign: TextAlign.center,
+                      maxLines: 2,
                     ),
                     SizedBox(
                       height: 2.0,

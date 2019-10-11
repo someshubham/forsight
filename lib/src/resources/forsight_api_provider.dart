@@ -64,7 +64,7 @@ class ForsightApiProvider {
         .get('$_root/get.php?method=oci_registration_api&accessToken=$token');
 
     //print('token : $token');
-    //print('response for login ${response.body}');
+    print('response for login ${response.body}');
 
     return (json.decode(response.body) as List)
         .map((e) {
