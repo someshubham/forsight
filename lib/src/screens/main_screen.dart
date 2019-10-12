@@ -55,41 +55,39 @@ class _MainScreenState extends State<MainScreen> {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: (index) {
-          if(index == 3) {
+          if (index == 3) {
             showCupertinoDialog(
-              context: context,
-              builder: (context) {
-                return CupertinoAlertDialog(
-                  title: Text('Log Out'),
-                  content: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text('Are you sure you want to log out ?'),
-                  ),
-                  actions: <Widget>[
-                    CupertinoButton(
-                      child: Text('Yes'),
-                      onPressed: () {
-                        ForsightSharedPrefs().clearToken();
-                        Navigator.pop(context);
-                        Navigator.popAndPushNamed(context, '/');
-                      },
+                context: context,
+                builder: (context) {
+                  return CupertinoAlertDialog(
+                    title: Text('Log Out'),
+                    content: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('Are you sure you want to log out ?'),
                     ),
-                    CupertinoButton(
-                      child: Text('No'),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-                  ],
-                );
-              }
-            );
-          }else{
+                    actions: <Widget>[
+                      CupertinoButton(
+                        child: Text('Yes'),
+                        onPressed: () {
+                          ForsightSharedPrefs().clearToken();
+                          Navigator.pop(context);
+                          Navigator.popAndPushNamed(context, '/');
+                        },
+                      ),
+                      CupertinoButton(
+                        child: Text('No'),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ],
+                  );
+                });
+          } else {
             setState(() {
-            _currentIndex = index;
-          });
+              _currentIndex = index;
+            });
           }
-          
         },
         backgroundColor: Colors.white,
         selectedItemColor: Colors.cyanAccent[700],
@@ -101,7 +99,7 @@ class _MainScreenState extends State<MainScreen> {
                 style:
                     TextStyle(fontFamily: 'ProductSans', color: Colors.black),
               )),
-              BottomNavigationBarItem(
+          BottomNavigationBarItem(
               icon: Icon(Icons.search, color: Color.fromARGB(255, 0, 0, 0)),
               title: new Text(
                 'Scan',
@@ -116,13 +114,13 @@ class _MainScreenState extends State<MainScreen> {
                     TextStyle(fontFamily: 'ProductSans', color: Colors.black),
               )),
           BottomNavigationBarItem(
-              icon: Icon(Icons.power_settings_new, color: Color.fromARGB(255, 0, 0, 0)),
+              icon: Icon(Icons.power_settings_new,
+                  color: Color.fromARGB(255, 0, 0, 0)),
               title: new Text(
                 'Log Out',
                 style:
                     TextStyle(fontFamily: 'ProductSans', color: Colors.black),
-              )),    
-
+              )),
         ],
       ),
       body: _children[_currentIndex],
@@ -172,7 +170,7 @@ class EventScreen extends StatelessWidget {
                           child: Text("ERROR OCCURRED, Tap to retry !"),
                         ),
                         onTap: () {})
-                : Center(child:CircularProgressIndicator());
+                : Center(child: CircularProgressIndicator());
           },
         ),
       ),
@@ -217,7 +215,7 @@ class EventCard extends StatelessWidget {
                           image: DecorationImage(
                               fit: BoxFit.cover,
                               image: AssetImage(
-                                  'asset/images/forsight_logo.jpeg')))),
+                                  'assets/images/forsight_logo.jpeg')))),
                 ),
                 SizedBox(
                   width: 24,

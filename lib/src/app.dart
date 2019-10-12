@@ -46,6 +46,7 @@ class MyApp extends StatelessWidget {
       return MaterialPageRoute(builder: (context) {
         final loginBloc = LoginProvider.of(context);
         loginBloc.login();
+        loginBloc.fetchCEPoints();
         return MainScreen();
       });
     }
