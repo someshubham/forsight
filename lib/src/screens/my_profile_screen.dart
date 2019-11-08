@@ -137,6 +137,18 @@ class _ProfileDisplayState extends State<ProfileDisplay> {
             children: <Widget>[
               Container(
                 child: Text(
+                  '${widget.user.optometryQualificationDegree}',
+                  style: TextStyle(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 4.0,
+              ),
+              Container(
+                child: Text(
                   '${widget.user.collegeName}',
                   style: TextStyle(
                     fontSize: 18.0,
@@ -149,7 +161,7 @@ class _ProfileDisplayState extends State<ProfileDisplay> {
               ),
               Container(
                 child: Text(
-                  '${widget.user.resAddress1}',
+                  '${widget.user.universityName}',
                   style: TextStyle(
                     fontSize: 18.0,
                     fontWeight: FontWeight.w600,

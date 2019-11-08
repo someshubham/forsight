@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:forsight/src/bloc/update_provider.dart';
 import 'package:forsight/src/resources/forsight_shared_pref.dart';
 import 'package:image_picker/image_picker.dart';
@@ -16,6 +17,7 @@ class UpdateProfileScreen extends StatefulWidget {
 class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   @override
   Widget build(BuildContext context) {
+    final bloc = UpdateProvider.of(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue[50],
@@ -40,6 +42,21 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
         centerTitle: true,
       ),
       backgroundColor: Colors.blue[50],
+      bottomNavigationBar: CupertinoButton(
+        borderRadius: BorderRadius.circular(0),
+        child: Text(
+          'Update',
+          style: TextStyle(
+            fontSize: 20.0,
+            color: Colors.white,
+          ),
+        ),
+        color: Colors.cyanAccent[700],
+        onPressed: () async {
+          await bloc.submitPersonalDetail();
+          Navigator.pop(context);
+        },
+      ),
       body: SafeArea(
         child: Container(
           margin: EdgeInsets.all(16.0),
@@ -230,7 +247,7 @@ class _UpdateListState extends State<UpdateList> {
         SizedBox(
           height: 18.0,
         ),
-        UpdateButton(),
+        //UpdateButton(),
       ],
     );
   }
@@ -279,7 +296,7 @@ class _NameWidgetState extends State<NameWidget> {
               hintStyle: TextStyle(
                   //color: Colors.blue[50]
                   ),
-              prefixIcon: Icon(Icons.face),
+              prefixIcon: Icon(FontAwesomeIcons.userMd),
               border: OutlineInputBorder(),
               errorText: snapshot.error,
             ),
@@ -334,7 +351,7 @@ class _FatherNameWidgetState extends State<FatherNameWidget> {
               hintStyle: TextStyle(
                   //color: Colors.blue[50]
                   ),
-              prefixIcon: Icon(Icons.face),
+              prefixIcon: Icon(FontAwesomeIcons.userTie),
               border: OutlineInputBorder(),
               errorText: snapshot.error,
             ),
@@ -405,7 +422,7 @@ class _DoBWidgetState extends State<DoBWidget> {
               hintStyle: TextStyle(
                   //color: Colors.blue[50]
                   ),
-              prefixIcon: Icon(Icons.date_range),
+              prefixIcon: Icon(FontAwesomeIcons.birthdayCake),
               border: OutlineInputBorder(),
               errorText: snapshot.error,
             ),
@@ -460,7 +477,7 @@ class _MobileWidgetState extends State<MobileWidget> {
               hintStyle: TextStyle(
                   //color: Colors.blue[50]
                   ),
-              prefixIcon: Icon(Icons.phone_android),
+              prefixIcon: Icon(FontAwesomeIcons.mobileAlt),
               border: OutlineInputBorder(),
               errorText: snapshot.error,
             ),
@@ -554,7 +571,7 @@ class _EmailWidgetState extends State<EmailWidget> {
               hintStyle: TextStyle(
                   //color: Colors.blue[50]
                   ),
-              prefixIcon: Icon(Icons.mail),
+              prefixIcon: Icon(FontAwesomeIcons.at),
               border: OutlineInputBorder(),
               errorText: snapshot.error,
             ),

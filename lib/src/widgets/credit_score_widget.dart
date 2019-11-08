@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:forsight/src/bloc/login_provider.dart';
+import 'package:pk_skeleton/pk_skeleton.dart';
 
 class CreditScoreWidget extends StatefulWidget {
   CreditScoreWidget({Key key}) : super(key: key);
@@ -17,8 +18,8 @@ class _CreditScoreWidgetState extends State<CreditScoreWidget> {
         if (snapshot.hasData) {
           switch (snapshot.data) {
             case -1:
-              return Center(
-                child: CircularProgressIndicator(),
+              return PKCardPageSkeleton(
+                totalLines: 3,
               );
               break;
             case -2:

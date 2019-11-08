@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:forsight/src/bloc/update_provider.dart';
 import 'package:forsight/src/resources/forsight_shared_pref.dart';
 import 'package:forsight/src/widgets/generic_input_widget.dart';
@@ -16,6 +17,7 @@ class UpdateEducationScreen extends StatefulWidget {
 class _UpdateEducationScreenState extends State<UpdateEducationScreen> {
   @override
   Widget build(BuildContext context) {
+    final bloc = UpdateProvider.of(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue[50],
@@ -28,16 +30,31 @@ class _UpdateEducationScreenState extends State<UpdateEducationScreen> {
           ),
           padding: EdgeInsets.all(8.0),
           child: Text(
-            'Update Details',
+            'Update Education Details',
             style: TextStyle(
               color: Colors.black,
-              fontSize: 24,
+              fontSize: 22,
             ),
           ),
         ),
         elevation: 0,
         automaticallyImplyLeading: false,
         centerTitle: true,
+      ),
+      bottomNavigationBar: CupertinoButton(
+        borderRadius: BorderRadius.circular(0),
+        child: Text(
+          'Update',
+          style: TextStyle(
+            fontSize: 20.0,
+            color: Colors.white,
+          ),
+        ),
+        color: Colors.cyanAccent[700],
+        onPressed: () async {
+          await bloc.submitEducationDetail();
+          Navigator.pop(context);
+        },
       ),
       backgroundColor: Colors.blue[50],
       body: SafeArea(
@@ -84,6 +101,9 @@ class _UpdateListState extends State<UpdateList> {
     final bloc = UpdateProvider.of(context);
     return ListView(
       children: <Widget>[
+        SizedBox(
+          height: 10,
+        ),
         GenericInputWidget(
           bloc: bloc,
           stream: bloc.qualDegree,
@@ -92,7 +112,7 @@ class _UpdateListState extends State<UpdateList> {
           controller: controllers[0],
           hintText: 'Example: BTech,MBBS,MD',
           keyboardType: TextInputType.text,
-          icon: Icon(Icons.school),
+          icon: Icon(FontAwesomeIcons.school),
           initialText: ForsightSharedPrefs.qualificationDegree,
         ),
         SizedBox(
@@ -105,7 +125,7 @@ class _UpdateListState extends State<UpdateList> {
           controller: controllers[1],
           initialText: ForsightSharedPrefs.qualificationDiploma,
           keyboardType: TextInputType.text,
-          icon: Icon(Icons.school),
+          icon: Icon(FontAwesomeIcons.school),
           labelText: 'Diploma',
           hintText: 'Example: Diploma in XYZ',
         ),
@@ -118,7 +138,7 @@ class _UpdateListState extends State<UpdateList> {
           onChange: bloc.changeQualOther,
           keyboardType: TextInputType.text,
           controller: controllers[2],
-          icon: Icon(Icons.school),
+          icon: Icon(FontAwesomeIcons.award),
           initialText: ForsightSharedPrefs.qualificationOther,
           labelText: 'Other Qualifications',
           hintText: 'Example: MD',
@@ -131,7 +151,7 @@ class _UpdateListState extends State<UpdateList> {
           stream: bloc.college,
           keyboardType: TextInputType.text,
           controller: controllers[3],
-          icon: Icon(Icons.school),
+          icon: Icon(FontAwesomeIcons.university),
           onChange: bloc.changeCollegeName,
           initialText: ForsightSharedPrefs.collegeName,
           labelText: 'College Name',
@@ -144,7 +164,7 @@ class _UpdateListState extends State<UpdateList> {
           bloc: bloc,
           stream: bloc.univversityName,
           keyboardType: TextInputType.text,
-          icon: Icon(Icons.school),
+          icon: Icon(FontAwesomeIcons.university),
           onChange: bloc.changeUniversityName,
           controller: controllers[4],
           initialText: ForsightSharedPrefs.universityName,
@@ -157,7 +177,7 @@ class _UpdateListState extends State<UpdateList> {
         GenericInputWidget(
           bloc: bloc,
           keyboardType: TextInputType.text,
-          icon: Icon(Icons.school),
+          icon: Icon(FontAwesomeIcons.graduationCap),
           controller: controllers[5],
           stream: bloc.otherInstitureName,
           onChange: bloc.changeOtherInstituteName,
@@ -171,7 +191,7 @@ class _UpdateListState extends State<UpdateList> {
         GenericInputWidget(
           bloc: bloc,
           keyboardType: TextInputType.text,
-          icon: Icon(Icons.school),
+          icon: Icon(FontAwesomeIcons.graduationCap),
           controller: controllers[6],
           stream: bloc.masterUniversityName,
           onChange: bloc.changeMasterUniversityName,
@@ -185,7 +205,7 @@ class _UpdateListState extends State<UpdateList> {
         GenericInputWidget(
           bloc: bloc,
           keyboardType: TextInputType.text,
-          icon: Icon(Icons.school),
+          icon: Icon(FontAwesomeIcons.graduationCap),
           stream: bloc.studyCenterName,
           controller: controllers[7],
           onChange: bloc.changeStudyCenterName,
@@ -199,7 +219,7 @@ class _UpdateListState extends State<UpdateList> {
         GenericInputWidget(
           bloc: bloc,
           keyboardType: TextInputType.datetime,
-          icon: Icon(Icons.date_range),
+          icon: Icon(FontAwesomeIcons.calendarAlt),
           controller: controllers[8],
           stream: bloc.yearOfPassingMaster,
           onChange: bloc.changeYearOfPassingMaster,
@@ -213,7 +233,7 @@ class _UpdateListState extends State<UpdateList> {
         GenericInputWidget(
           bloc: bloc,
           keyboardType: TextInputType.datetime,
-          icon: Icon(Icons.date_range),
+          icon: Icon(FontAwesomeIcons.calendar),
           stream: bloc.yearOfPassingPhD,
           controller: controllers[9],
           initialText: ForsightSharedPrefs.yearOfPassingPhD,
@@ -268,7 +288,7 @@ class _UpdateListState extends State<UpdateList> {
         GenericInputWidget(
           bloc: bloc,
           keyboardType: TextInputType.text,
-          icon: Icon(Icons.work),
+          icon: Icon(FontAwesomeIcons.userTie),
           stream: bloc.currentDesignation,
           controller: controllers[12],
           onChange: bloc.changeCurrentDesignation,
@@ -279,7 +299,7 @@ class _UpdateListState extends State<UpdateList> {
         SizedBox(
           height: 18.0,
         ),
-        UpdateButton(),
+        //UpdateButton(),
       ],
     );
   }
